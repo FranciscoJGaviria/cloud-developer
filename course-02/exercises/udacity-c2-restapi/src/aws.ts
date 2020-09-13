@@ -14,11 +14,10 @@ export const s3 = new AWS.S3({
 });
 
 
-/* getGetSignedUrl generates an aws signed url to retreive an item
- * @Params
- *    key: string - the filename to be put into the s3 bucket
- * @Returns:
- *    a url as a string
+/**
+ * getGetSignedUrl generates an aws signed url to retrieve an item
+ * @param key: string - the filename to be put into the s3 bucket
+ * @returns a url as a string
  */
 export function getGetSignedUrl( key: string ): string{
 
@@ -33,11 +32,10 @@ export function getGetSignedUrl( key: string ): string{
     return url;
 }
 
-/* getPutSignedUrl generates an aws signed url to put an item
- * @Params
- *    key: string - the filename to be retreived from s3 bucket
- * @Returns:
- *    a url as a string
+/**
+ * getPutSignedUrl generates an aws signed url to put an item
+ * @param key: string - the filename to be retrieved from s3 bucket
+ * @return a url as a string
  */
 export function getPutSignedUrl( key: string ){
 
