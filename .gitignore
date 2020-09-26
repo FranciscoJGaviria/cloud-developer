@@ -37,3 +37,4 @@ venv/
 .vscode
 secrets/udagram-user-dev.csv
 course-02/exercises/udacity-c2-restapi/src/config/config.local.ts
+course-02/exercises/udacity-c2-restapi/.env

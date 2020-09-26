@@ -11,7 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
   const items = await FeedItem.findAndCountAll({ order: [['id', 'DESC']] });
   items.rows.forEach((item) => {
     if (item.url) {
-      item.url = AWS.getGetSignedUrl(item.url);
+      item.url = AWS.getSignedUrlToRead(item.url);
     }
   });
   res.send(items);
@@ -37,7 +37,7 @@ router.get('/:id', async (req: Request, res: Response) => {
         .status(404)
         .send(`Feet with id ${id} not found.`)
     }
-  } catch (err: any) {
+  } catch (err) {
     res
       .status(404)
       .send(`Feet with id ${id} not found.`)
@@ -80,7 +80,7 @@ router.patch('/:id', requireAuth, async (req: Request, res: Response) => {
         .status(404)
         .send(`The feed item with id ${id} not found`)
     }
-  } catch (err: any) {
+  } catch (err) {
     res
       .status(500)
       .send(`Internal Server Error updating the feed item with id ${id}
@@ -94,7 +94,7 @@ router.get('/signed-url/:fileName',
   requireAuth,
   async (req: Request, res: Response) => {
     let { fileName } = req.params;
-    const url = AWS.getPutSignedUrl(fileName);
+    const url = AWS.getSignedUrlToWrite(fileName);
     res.status(201).send({ url: url });
   });
 
@@ -124,7 +124,7 @@ router.post('/',
 
     const saved_item = await item.save();
 
-    saved_item.url = AWS.getGetSignedUrl(saved_item.url);
+    saved_item.url = AWS.getSignedUrlToRead(saved_item.url);
     res.status(201).send(saved_item);
   });
 
