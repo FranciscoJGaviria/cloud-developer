@@ -1,19 +1,18 @@
 import AWS = require('aws-sdk');
 import { config } from './config/config';
 
-const c = config.dev;
 const signedUrlExpireSeconds = 150 // 5 min
 
 //Configure AWS
-if(c.aws_profile !== "DEPLOYED") {
-  var credentials = new AWS.SharedIniFileCredentials({ profile: c.aws_profile });
+if(config.aws.aws_profile !== "DEPLOYED") {
+  var credentials = new AWS.SharedIniFileCredentials({ profile: config.aws.aws_profile });
   AWS.config.credentials = credentials;
 }
 
 export const s3 = new AWS.S3({
   signatureVersion: 'v4',
-  region: c.aws_region,
-  params: { Bucket: c.aws_media_bucket }
+  region: config.aws.aws_region,
+  params: { Bucket: config.aws.aws_media_bucket }
 });
 
 
@@ -24,7 +23,7 @@ export const s3 = new AWS.S3({
  */
 export function getSignedUrlToRead(key: string): string {
   const params = {
-    Bucket: c.aws_media_bucket,
+    Bucket: config.aws.aws_media_bucket,
     Key: key,
     Expires: signedUrlExpireSeconds
   };
@@ -39,7 +38,7 @@ export function getSignedUrlToRead(key: string): string {
  */
 export function getSignedUrlToWrite(key: string): string {
   const params = {
-    Bucket: c.aws_media_bucket,
+    Bucket: config.aws.aws_media_bucket,
     Key: key,
     Expires: signedUrlExpireSeconds
   };
